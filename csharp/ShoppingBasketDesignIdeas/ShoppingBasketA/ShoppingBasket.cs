@@ -2,18 +2,19 @@ namespace ShoppingBasketA;
 
 public class ShoppingBasket
 {
+    private readonly List<(BasketItem Item, int Quantity)> _items = new();
+
     public void Add(BasketItem item, int quantity)
     {
-        throw new NotImplementedException();
+        _items.Add((item, quantity));
     }
 
-    public double GetQuantity(String itemName)
+    public int GetQuantity(string itemName)
     {
-        throw new NotImplementedException();
+        return _items
+            .Where(x => x.Item.Name == itemName)
+            .Sum(x => x.Quantity);
     }
 
-    public decimal CalculateTotal()
-    {
-        throw new NotImplementedException();
-    }
+    public List<(BasketItem Item, int Quantity)> GetItems() => _items;
 }
