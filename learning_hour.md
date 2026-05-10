@@ -115,6 +115,11 @@ Key takeaway: when a service receives a DTO of pre-resolved values, tests can co
 
 ## Related Patterns
 
+### Related Learning Hours (sammancoaching.org)
+
+- [Law of Demeter](https://sammancoaching.org/learning_hours/refactoring/law_of_demeter.html) — `basket.GetItems().Sum(x => x.Item.Price * x.Quantity)` is a classic Demeter violation. This learning hour teaches spotting the chain; ours teaches what happens when tests cement it.
+- [Example-guided design](https://sammancoaching.org/learning_hours/small_steps/example_guided_design.html) — uses the same Shopping Basket kata but approaches it greenfield with TDD. Good follow-up to show how delegation emerges naturally when you design usage-first.
+
 ### Code Smells (sammancoaching.org)
 
 - [Data Class](https://sammancoaching.org/reference/code_smells/data_class.html) — `BasketSummary` is a textbook data class: public getters/setters, no behavior. It exists to hold values that belong elsewhere.
