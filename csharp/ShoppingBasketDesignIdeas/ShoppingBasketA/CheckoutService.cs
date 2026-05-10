@@ -2,29 +2,36 @@ namespace ShoppingBasketA;
 
 public class CheckoutService
 {
-    public BasketSummary Summarize(ShoppingBasket basket)
+    public string GenerateReceipt(BasketSummary summary)
     {
-        var items = basket.GetItems();
-
-        var subtotal = items.Sum(x => x.Item.Price * x.Quantity);
-        var itemCount = items.Sum(x => x.Quantity);
-
-        decimal discountPercentage = 0;
-        if (subtotal > 200)
-            discountPercentage = 0.10m;
-        else if (subtotal > 100)
-            discountPercentage = 0.05m;
-
-        var discountAmount = subtotal * discountPercentage;
-        var total = subtotal - discountAmount;
-
-        return new BasketSummary
+        var lines = new List<string>
         {
-            Subtotal = subtotal,
-            DiscountPercentage = discountPercentage,
-            DiscountAmount = discountAmount,
-            Total = total,
-            ItemCount = itemCount,
+            $"Items: {summary.ItemCount}",
+            $"Subtotal: ${summary.Subtotal:F2}",
+        };
+
+        if (summary.DiscountPercentage > 0)
+        {
+            lines.Add($"Discount ({summary.DiscountPercentage:P0}): -${summary.DiscountAmount:F2}");
+        }
+
+        lines.Add($"Total: ${summary.Total:F2}");
+
+        return string.Join(Environment.NewLine, lines);
+    }
+
+    public bool QualifiesForFreeShipping(BasketSummary summary)
+    {
+        return summary.Total >= 100m;
+    }
+
+    public string GetDiscountTier(BasketSummary summary)
+    {
+        return summary.DiscountPercentage switch
+        {
+            >= 0.10m => "Gold",
+            >= 0.05m => "Silver",
+            _ => "None",
         };
     }
 }
